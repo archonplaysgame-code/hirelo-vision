@@ -1,4 +1,5 @@
-import { Link, Outlet, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState } from "@tanstack/react-router";
+import type { ReactNode } from "react";
 import { LayoutDashboard, Briefcase, Users, BarChart3, Settings, Search, Bell } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
@@ -13,7 +14,7 @@ const nav = [
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 
-export function DashboardLayout() {
+export function DashboardLayout({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -70,9 +71,7 @@ export function DashboardLayout() {
             </Avatar>
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-8 overflow-auto">
-          <Outlet />
-        </main>
+        <main className="flex-1 p-4 md:p-8 overflow-auto">{children}</main>
       </div>
     </div>
   );
