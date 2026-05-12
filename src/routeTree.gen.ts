@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
@@ -22,6 +23,11 @@ import { Route as CandidatesCandidateIdRouteImport } from './routes/candidates.$
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/candidates/$candidateId': typeof CandidatesCandidateIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/candidates/$candidateId': typeof CandidatesCandidateIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/dashboard': typeof DashboardRoute
+  '/onboarding': typeof OnboardingRoute
   '/settings': typeof SettingsRoute
   '/candidates/$candidateId': typeof CandidatesCandidateIdRoute
   '/jobs/$jobId': typeof JobsJobIdRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/dashboard'
+    | '/onboarding'
     | '/settings'
     | '/candidates/$candidateId'
     | '/jobs/$jobId'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/dashboard'
+    | '/onboarding'
     | '/settings'
     | '/candidates/$candidateId'
     | '/jobs/$jobId'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/dashboard'
+    | '/onboarding'
     | '/settings'
     | '/candidates/$candidateId'
     | '/jobs/$jobId'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   DashboardRoute: typeof DashboardRoute
+  OnboardingRoute: typeof OnboardingRoute
   SettingsRoute: typeof SettingsRoute
   CandidatesCandidateIdRoute: typeof CandidatesCandidateIdRoute
   JobsJobIdRoute: typeof JobsJobIdRoute
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   DashboardRoute: DashboardRoute,
+  OnboardingRoute: OnboardingRoute,
   SettingsRoute: SettingsRoute,
   CandidatesCandidateIdRoute: CandidatesCandidateIdRoute,
   JobsJobIdRoute: JobsJobIdRoute,
@@ -229,3 +250,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
