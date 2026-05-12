@@ -1,6 +1,6 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import type { ReactNode } from "react";
-import { LayoutDashboard, Briefcase, Users, BarChart3, Settings, Search, Bell } from "lucide-react";
+import { LayoutDashboard, Briefcase, Users, BarChart3, Settings, Search, Bell, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -16,10 +16,11 @@ const nav = [
 
 export function DashboardLayout({ children }: { children: ReactNode }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen flex w-full bg-muted/30">
-      <aside className="hidden md:flex w-60 flex-col border-r bg-sidebar text-sidebar-foreground">
+      <aside className="hidden md:flex fixed inset-y-0 left-0 w-60 flex-col border-r bg-sidebar text-sidebar-foreground z-30">
         <Link to="/" className="flex items-center gap-2 px-6 h-16 border-b">
           <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
             <span className="text-primary-foreground font-bold text-sm">H</span>
@@ -46,16 +47,25 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
             );
           })}
         </nav>
-        <div className="p-4 border-t">
+        <div className="p-3 border-t space-y-2 shrink-0">
           <div className="rounded-lg bg-primary/5 p-3">
             <p className="text-xs font-semibold text-primary">Free trial</p>
             <p className="text-xs text-muted-foreground mt-1">14 days remaining</p>
             <Button size="sm" className="w-full mt-2 bg-accent hover:bg-accent/90 text-accent-foreground">Upgrade</Button>
           </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate({ to: "/" })}
+            className="w-full justify-start gap-2 text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+          >
+            <LogOut className="h-4 w-4" />
+            Log out
+          </Button>
         </div>
       </aside>
 
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 md:ml-60">
         <header className="h-16 border-b bg-background flex items-center gap-4 px-4 md:px-6">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
