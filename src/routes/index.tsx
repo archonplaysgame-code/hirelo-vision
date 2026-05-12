@@ -39,7 +39,7 @@ function Landing() {
             <Link to="/dashboard">
               <Button variant="ghost">Login</Button>
             </Link>
-            <Link to="/dashboard">
+            <Link to="/onboarding">
               <Button className="bg-primary hover:bg-primary/90">Get Started</Button>
             </Link>
           </div>
