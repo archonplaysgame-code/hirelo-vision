@@ -289,7 +289,7 @@ function Landing() {
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Ready to hire smarter?</h2>
           <p className="mt-4 text-primary-foreground/80">Join hundreds of teams running their hiring on Hirelo.</p>
-          <Link to="/dashboard" className="inline-block mt-8">
+          <Link to="/onboarding" className="inline-block mt-8">
             <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground h-12 px-8">Start free trial</Button>
           </Link>
         </div>
