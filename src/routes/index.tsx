@@ -226,7 +226,7 @@ function Landing() {
                     </li>
                   ))}
                 </ul>
-                <Link to="/dashboard" className="mt-8">
+                <Link to="/onboarding" className="mt-8">
                   <Button
                     className={`w-full ${
                       p.highlighted
