@@ -60,7 +60,7 @@ function Landing() {
             Hirelo broadcasts your job to LinkedIn, Indeed, Rozee.pk, and Mustakbil — and brings every applicant back into one beautiful pipeline.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link to="/dashboard">
+            <Link to="/onboarding">
               <Button size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground h-12 px-7 text-base">
                 Get Started Free <ArrowRight className="ml-1 h-4 w-4" />
               </Button>
