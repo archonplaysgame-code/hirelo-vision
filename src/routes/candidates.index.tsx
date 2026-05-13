@@ -4,16 +4,24 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { candidates, initials, platformColor, jobs } from "@/lib/dummy-data";
+import { candidates, initials, platformColor, jobs, PLATFORMS } from "@/lib/dummy-data";
 import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/candidates/")({
   component: () => <DashboardLayout><CandidatesPage /></DashboardLayout>,
 });
 
+const FILTERS = ["All", ...PLATFORMS] as const;
+
 function CandidatesPage() {
   const [q, setQ] = useState("");
-  const filtered = candidates.filter((c) => c.name.toLowerCase().includes(q.toLowerCase()));
+  const [source, setSource] = useState<(typeof FILTERS)[number]>("All");
+  const filtered = candidates.filter(
+    (c) =>
+      c.name.toLowerCase().includes(q.toLowerCase()) &&
+      (source === "All" || c.source === source),
+  );
 
   return (
     <div className="space-y-6 max-w-7xl">
@@ -21,9 +29,27 @@ function CandidatesPage() {
         <h1 className="text-3xl font-bold tracking-tight text-primary">Candidates</h1>
         <p className="text-muted-foreground mt-1">All applicants across every open role.</p>
       </div>
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-        <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search candidates…" className="pl-9" />
+      <div className="flex flex-wrap items-center gap-3">
+        <div className="relative max-w-md flex-1 min-w-[200px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search candidates…" className="pl-9" />
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setSource(f)}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-xs font-medium border transition-colors",
+                source === f
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background text-muted-foreground border-border hover:bg-muted",
+              )}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
       </div>
       <Card className="border-0 shadow-sm divide-y">
         {filtered.map((c) => {

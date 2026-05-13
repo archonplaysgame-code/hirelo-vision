@@ -2,7 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { applicationsOverTime, applicationsByPlatform, funnel } from "@/lib/dummy-data";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
+
+const PLATFORM_COLORS: Record<string, string> = {
+  LinkedIn: "#0077B5",
+  Indeed: "#6244BB",
+  "Rozee.pk": "#FF6B35",
+  Mustakbil: "#00A651",
+};
 
 export const Route = createFileRoute("/analytics")({
   component: () => <DashboardLayout><AnalyticsPage /></DashboardLayout>,
@@ -44,7 +51,11 @@ function AnalyticsPage() {
                 <XAxis dataKey="platform" stroke="var(--color-muted-foreground)" fontSize={12} />
                 <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
                 <Tooltip contentStyle={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 8 }} />
-                <Bar dataKey="apps" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
+                  {applicationsByPlatform.map((entry) => (
+                    <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "var(--color-primary)"} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
