@@ -708,32 +708,32 @@ function KanbanIllustration() {
     { title: "Interview", count: 2, items: 1 },
   ];
   return (
-    <div className="w-full max-w-sm grid grid-cols-3 gap-2">
+    <div className="w-full max-w-md grid grid-cols-3 gap-3">
       {cols.map((col) => (
         <div
           key={col.title}
-          className="bg-white border border-slate-200 rounded-lg p-2 shadow-sm"
+          className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm"
         >
-          <div className="flex items-center justify-between px-1 mb-2">
-            <span className="text-[10px] font-semibold text-slate-700 uppercase tracking-wide">
+          <div className="flex items-center justify-between px-1 mb-3">
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
               {col.title}
             </span>
-            <span className="text-[10px] text-slate-400">{col.count}</span>
+            <span className="text-xs text-slate-400">{col.count}</span>
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {Array.from({ length: col.items }).map((_, i) => (
               <div
                 key={i}
-                className="rounded-md border border-slate-100 bg-slate-50 p-2"
+                className="rounded-md border border-slate-100 bg-slate-50 p-2.5"
               >
-                <div className="flex items-center gap-1.5 mb-1.5">
+                <div className="flex items-center gap-2 mb-2">
                   <div
-                    className="h-4 w-4 rounded-full"
+                    className="h-5 w-5 rounded-full"
                     style={{ backgroundColor: NAVY }}
                   />
-                  <div className="h-1.5 flex-1 rounded bg-slate-200" />
+                  <div className="h-2 flex-1 rounded bg-slate-200" />
                 </div>
-                <div className="h-1 rounded bg-slate-200 w-3/4" />
+                <div className="h-1.5 rounded bg-slate-200 w-3/4" />
               </div>
             ))}
           </div>
