@@ -511,12 +511,7 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-6 py-14">
           <div className="grid md:grid-cols-4 gap-10">
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
-                  <span className="text-white font-bold">H</span>
-                </div>
-                <span className="font-bold text-lg text-white">Hirelo</span>
-              </div>
+              <span className="font-bold text-2xl text-white tracking-tight">Hirelo</span>
               <p className="mt-4 text-sm text-white/60 leading-relaxed">
                 Hiring, simplified for Pakistan.
               </p>
