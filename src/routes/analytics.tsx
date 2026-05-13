@@ -3,6 +3,7 @@ import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { applicationsOverTime, applicationsByPlatform, funnel } from "@/lib/dummy-data";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
+import { useEffect, useState } from "react";
 
 const PLATFORM_COLORS: Record<string, string> = {
   LinkedIn: "#0077B5",
@@ -15,6 +16,20 @@ export const Route = createFileRoute("/analytics")({
   component: () => <DashboardLayout><AnalyticsPage /></DashboardLayout>,
 });
 
+function ChartFrame({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  return (
+    <div className="h-64 w-full min-w-0">
+      {mounted ? (
+        <ResponsiveContainer width="100%" height="100%">
+          {children as React.ReactElement}
+        </ResponsiveContainer>
+      ) : null}
+    </div>
+  );
+}
+
 function AnalyticsPage() {
   const max = Math.max(...funnel.map((f) => f.value));
   return (
@@ -25,40 +40,36 @@ function AnalyticsPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="p-6 border-0 shadow-sm">
+        <Card className="p-6 border-0 shadow-sm min-w-0 overflow-hidden">
           <h3 className="font-semibold mb-1">Applications over time</h3>
           <p className="text-xs text-muted-foreground mb-4">Last 6 months</p>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={applicationsOverTime}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
-                <XAxis dataKey="month" stroke="var(--color-muted-foreground)" fontSize={12} />
-                <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
-                <Tooltip contentStyle={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 8 }} />
-                <Line type="monotone" dataKey="apps" stroke="var(--color-accent)" strokeWidth={2.5} dot={{ r: 4 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartFrame>
+            <LineChart data={applicationsOverTime} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
+              <YAxis stroke="#64748b" fontSize={12} />
+              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
+              <Line type="monotone" dataKey="apps" stroke="#FF6B35" strokeWidth={2.5} dot={{ r: 4, fill: "#FF6B35" }} />
+            </LineChart>
+          </ChartFrame>
         </Card>
 
-        <Card className="p-6 border-0 shadow-sm">
+        <Card className="p-6 border-0 shadow-sm min-w-0 overflow-hidden">
           <h3 className="font-semibold mb-1">Applications by platform</h3>
           <p className="text-xs text-muted-foreground mb-4">All-time totals</p>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={applicationsByPlatform}>
-                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
-                <XAxis dataKey="platform" stroke="var(--color-muted-foreground)" fontSize={12} />
-                <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
-                <Tooltip contentStyle={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 8 }} />
-                <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
-                  {applicationsByPlatform.map((entry) => (
-                    <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "var(--color-primary)"} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          <ChartFrame>
+            <BarChart data={applicationsByPlatform} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+              <XAxis dataKey="platform" stroke="#64748b" fontSize={12} />
+              <YAxis stroke="#64748b" fontSize={12} />
+              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
+              <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
+                {applicationsByPlatform.map((entry) => (
+                  <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "#1E3A5F"} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ChartFrame>
         </Card>
 
         <Card className="p-6 border-0 shadow-sm lg:col-span-2">
