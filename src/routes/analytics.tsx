@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { applicationsOverTime, applicationsByPlatform, funnel } from "@/lib/dummy-data";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
-import { useEffect, useState } from "react";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid, Cell } from "recharts";
+import { useEffect, useRef, useState } from "react";
 
 const PLATFORM_COLORS: Record<string, string> = {
   LinkedIn: "#0077B5",
@@ -16,16 +16,22 @@ export const Route = createFileRoute("/analytics")({
   component: () => <DashboardLayout><AnalyticsPage /></DashboardLayout>,
 });
 
-function ChartFrame({ children }: { children: React.ReactNode }) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+function ChartFrame({ children }: { children: (size: { width: number; height: number }) => React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 256 });
+  useEffect(() => {
+    if (!ref.current) return;
+    const update = () => {
+      if (ref.current) setSize({ width: ref.current.clientWidth, height: ref.current.clientHeight || 256 });
+    };
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(ref.current);
+    return () => ro.disconnect();
+  }, []);
   return (
-    <div className="h-64 w-full min-w-0">
-      {mounted ? (
-        <ResponsiveContainer width="100%" height="100%">
-          {children as React.ReactElement}
-        </ResponsiveContainer>
-      ) : null}
+    <div ref={ref} className="h-64 w-full">
+      {size.width > 0 ? children(size) : null}
     </div>
   );
 }
