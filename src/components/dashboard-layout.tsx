@@ -48,10 +48,12 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
           })}
         </nav>
         <div className="p-3 border-t space-y-2 shrink-0">
-          <div className="rounded-lg bg-primary/5 p-3">
-            <p className="text-xs font-semibold text-primary">Free trial</p>
-            <p className="text-xs text-muted-foreground mt-1">14 days remaining</p>
-            <Button size="sm" className="w-full mt-2 bg-accent hover:bg-accent/90 text-accent-foreground">Upgrade</Button>
+          <div className="rounded-md px-2.5 py-2 flex items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="text-[11px] font-medium text-sidebar-foreground/80">Free trial</p>
+              <p className="text-[10px] text-muted-foreground">14 days left</p>
+            </div>
+            <Button size="sm" variant="ghost" className="h-7 px-2 text-xs text-accent hover:text-accent hover:bg-accent/10">Upgrade</Button>
           </div>
           <Button
             variant="ghost"

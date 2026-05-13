@@ -71,6 +71,7 @@ function JobsPage() {
                 <span>Posted {j.postedOn}</span>
                 <span className="font-medium text-foreground">{j.salary}</span>
               </div>
+              <div className="mt-3 text-sm font-medium text-accent hover:underline">View Pipeline →</div>
             </Card>
           </Link>
         ))}
