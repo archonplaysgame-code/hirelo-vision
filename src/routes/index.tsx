@@ -332,15 +332,15 @@ function Landing() {
                 <p className="text-slate-800 leading-relaxed flex-1 text-[15px]">
                   "{t.quote}"
                 </p>
-                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-3">
+                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-4">
                   <div
-                    className="h-10 w-10 rounded-full flex items-center justify-center text-white text-sm font-semibold shrink-0"
+                    className="h-12 w-12 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0"
                     style={{ backgroundColor: NAVY }}
                   >
                     {t.initials}
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-sm">
+                    <div className="font-bold text-slate-900 text-base">
                       {t.name}
                     </div>
                     <div className="text-xs text-slate-500">
@@ -511,12 +511,7 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-6 py-14">
           <div className="grid md:grid-cols-4 gap-10">
             <div className="md:col-span-1">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-white/10 flex items-center justify-center">
-                  <span className="text-white font-bold">H</span>
-                </div>
-                <span className="font-bold text-lg text-white">Hirelo</span>
-              </div>
+              <span className="font-bold text-2xl text-white tracking-tight">Hirelo</span>
               <p className="mt-4 text-sm text-white/60 leading-relaxed">
                 Hiring, simplified for Pakistan.
               </p>
@@ -587,7 +582,7 @@ function FeatureBlock({
           </p>
         </div>
         <div
-          className="p-8 md:p-10 flex items-center justify-center min-h-[260px]"
+          className="p-8 md:p-12 flex items-center justify-center min-h-[380px] md:min-h-[440px]"
           style={{ backgroundColor: "#F8F9FA" }}
         >
           {illustration}
@@ -621,30 +616,30 @@ function FooterCol({ title, links }: { title: string; links: string[] }) {
 
 function PostIllustration() {
   return (
-    <div className="relative w-full max-w-sm">
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-        <div className="flex items-center gap-2 mb-3">
+    <div className="relative w-full max-w-md">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
+        <div className="flex items-center gap-2.5 mb-4">
           <div
-            className="h-7 w-7 rounded-md flex items-center justify-center"
+            className="h-9 w-9 rounded-lg flex items-center justify-center"
             style={{ backgroundColor: NAVY }}
           >
-            <Send className="h-3.5 w-3.5 text-white" />
+            <Send className="h-4 w-4 text-white" />
           </div>
-          <div className="text-sm font-semibold text-slate-800">
+          <div className="text-base font-semibold text-slate-800">
             Senior Developer
           </div>
         </div>
-        <div className="h-2 rounded bg-slate-100 mb-1.5 w-full" />
-        <div className="h-2 rounded bg-slate-100 w-2/3" />
+        <div className="h-2.5 rounded bg-slate-100 mb-2 w-full" />
+        <div className="h-2.5 rounded bg-slate-100 w-2/3" />
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
+      <div className="mt-5 grid grid-cols-2 gap-3">
         {["LinkedIn", "Indeed", "Rozee.pk", "Mustakbil"].map((p) => (
           <div
             key={p}
-            className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-medium text-slate-700 flex items-center gap-2 shadow-sm"
+            className="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 flex items-center gap-2 shadow-sm"
           >
             <Check
-              className="h-3.5 w-3.5"
+              className="h-4 w-4"
               style={{ color: "#10B981" }}
             />
             {p}
@@ -657,12 +652,12 @@ function PostIllustration() {
 
 function InboxIllustration() {
   return (
-    <div className="w-full max-w-sm bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
-      <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-2">
-        <Layers className="h-4 w-4 text-slate-400" />
-        <span className="text-sm font-semibold text-slate-800">Inbox</span>
+    <div className="w-full max-w-md bg-white border border-slate-200 rounded-xl shadow-md overflow-hidden">
+      <div className="px-5 py-4 border-b border-slate-100 flex items-center gap-2">
+        <Layers className="h-5 w-5 text-slate-400" />
+        <span className="text-base font-semibold text-slate-800">Inbox</span>
         <span
-          className="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full text-white"
+          className="ml-auto text-xs font-semibold px-2.5 py-0.5 rounded-full text-white"
           style={{ backgroundColor: ORANGE }}
         >
           24 new
@@ -675,23 +670,23 @@ function InboxIllustration() {
           { name: "Hassan M.", src: "Indeed", c: "#2164F4" },
           { name: "Ayesha N.", src: "Mustakbil", c: "#7C3AED" },
         ].map((c) => (
-          <div key={c.name} className="px-4 py-2.5 flex items-center gap-3">
+          <div key={c.name} className="px-5 py-3 flex items-center gap-3">
             <div
-              className="h-7 w-7 rounded-full flex items-center justify-center text-white text-[11px] font-semibold"
+              className="h-9 w-9 rounded-full flex items-center justify-center text-white text-sm font-semibold"
               style={{ backgroundColor: NAVY }}
             >
               {c.name[0]}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-xs font-medium text-slate-800 truncate">
+              <div className="text-sm font-medium text-slate-800 truncate">
                 {c.name}
               </div>
-              <div className="text-[10px] text-slate-500">
+              <div className="text-xs text-slate-500">
                 Applied · 2h ago
               </div>
             </div>
             <span
-              className="text-[10px] font-medium px-2 py-0.5 rounded"
+              className="text-xs font-medium px-2 py-0.5 rounded"
               style={{
                 backgroundColor: `${c.c}15`,
                 color: c.c,
@@ -713,32 +708,32 @@ function KanbanIllustration() {
     { title: "Interview", count: 2, items: 1 },
   ];
   return (
-    <div className="w-full max-w-sm grid grid-cols-3 gap-2">
+    <div className="w-full max-w-md grid grid-cols-3 gap-3">
       {cols.map((col) => (
         <div
           key={col.title}
-          className="bg-white border border-slate-200 rounded-lg p-2 shadow-sm"
+          className="bg-white border border-slate-200 rounded-lg p-3 shadow-sm"
         >
-          <div className="flex items-center justify-between px-1 mb-2">
-            <span className="text-[10px] font-semibold text-slate-700 uppercase tracking-wide">
+          <div className="flex items-center justify-between px-1 mb-3">
+            <span className="text-xs font-semibold text-slate-700 uppercase tracking-wide">
               {col.title}
             </span>
-            <span className="text-[10px] text-slate-400">{col.count}</span>
+            <span className="text-xs text-slate-400">{col.count}</span>
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-2">
             {Array.from({ length: col.items }).map((_, i) => (
               <div
                 key={i}
-                className="rounded-md border border-slate-100 bg-slate-50 p-2"
+                className="rounded-md border border-slate-100 bg-slate-50 p-2.5"
               >
-                <div className="flex items-center gap-1.5 mb-1.5">
+                <div className="flex items-center gap-2 mb-2">
                   <div
-                    className="h-4 w-4 rounded-full"
+                    className="h-5 w-5 rounded-full"
                     style={{ backgroundColor: NAVY }}
                   />
-                  <div className="h-1.5 flex-1 rounded bg-slate-200" />
+                  <div className="h-2 flex-1 rounded bg-slate-200" />
                 </div>
-                <div className="h-1 rounded bg-slate-200 w-3/4" />
+                <div className="h-1.5 rounded bg-slate-200 w-3/4" />
               </div>
             ))}
           </div>
