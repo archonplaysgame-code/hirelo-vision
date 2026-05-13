@@ -332,15 +332,15 @@ function Landing() {
                 <p className="text-slate-800 leading-relaxed flex-1 text-[15px]">
                   "{t.quote}"
                 </p>
-                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-3">
+                <div className="mt-6 pt-6 border-t border-slate-100 flex items-center gap-4">
                   <div
-                    className="h-10 w-10 rounded-full flex items-center justify-center text-white text-sm font-semibold shrink-0"
+                    className="h-12 w-12 rounded-full flex items-center justify-center text-white text-base font-semibold shrink-0"
                     style={{ backgroundColor: NAVY }}
                   >
                     {t.initials}
                   </div>
                   <div>
-                    <div className="font-semibold text-slate-900 text-sm">
+                    <div className="font-bold text-slate-900 text-base">
                       {t.name}
                     </div>
                     <div className="text-xs text-slate-500">
