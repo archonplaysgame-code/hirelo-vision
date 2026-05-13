@@ -50,13 +50,15 @@ function AnalyticsPage() {
           <h3 className="font-semibold mb-1">Applications over time</h3>
           <p className="text-xs text-muted-foreground mb-4">Last 6 months</p>
           <ChartFrame>
-            <LineChart data={applicationsOverTime} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
-              <YAxis stroke="#64748b" fontSize={12} />
-              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
-              <Line type="monotone" dataKey="apps" stroke="#FF6B35" strokeWidth={2.5} dot={{ r: 4, fill: "#FF6B35" }} />
-            </LineChart>
+            {({ width, height }) => (
+              <LineChart width={width} height={height} data={applicationsOverTime} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="month" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} />
+                <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
+                <Line type="monotone" dataKey="apps" stroke="#FF6B35" strokeWidth={2.5} dot={{ r: 4, fill: "#FF6B35" }} />
+              </LineChart>
+            )}
           </ChartFrame>
         </Card>
 
