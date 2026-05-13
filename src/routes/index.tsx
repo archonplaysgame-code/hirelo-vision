@@ -582,7 +582,7 @@ function FeatureBlock({
           </p>
         </div>
         <div
-          className="p-8 md:p-10 flex items-center justify-center min-h-[260px]"
+          className="p-8 md:p-12 flex items-center justify-center min-h-[380px] md:min-h-[440px]"
           style={{ backgroundColor: "#F8F9FA" }}
         >
           {illustration}
