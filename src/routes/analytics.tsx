@@ -66,17 +66,19 @@ function AnalyticsPage() {
           <h3 className="font-semibold mb-1">Applications by platform</h3>
           <p className="text-xs text-muted-foreground mb-4">All-time totals</p>
           <ChartFrame>
-            <BarChart data={applicationsByPlatform} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-              <XAxis dataKey="platform" stroke="#64748b" fontSize={12} />
-              <YAxis stroke="#64748b" fontSize={12} />
-              <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
-              <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
-                {applicationsByPlatform.map((entry) => (
-                  <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "#1E3A5F"} />
-                ))}
-              </Bar>
-            </BarChart>
+            {({ width, height }) => (
+              <BarChart width={width} height={height} data={applicationsByPlatform} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                <XAxis dataKey="platform" stroke="#64748b" fontSize={12} />
+                <YAxis stroke="#64748b" fontSize={12} />
+                <Tooltip contentStyle={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 8 }} />
+                <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
+                  {applicationsByPlatform.map((entry) => (
+                    <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "#1E3A5F"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            )}
           </ChartFrame>
         </Card>
 
