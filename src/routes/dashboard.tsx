@@ -12,10 +12,10 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 const cards = [
-  { label: "Total Jobs Posted", value: stats.totalJobs, icon: Briefcase, trend: "+3 this week" },
-  { label: "Total Applicants", value: stats.totalApplicants, icon: Users, trend: "+48 this week" },
-  { label: "Interviews Scheduled", value: stats.interviews, icon: CalendarCheck, trend: "+5 this week" },
-  { label: "Positions Filled", value: stats.filled, icon: Trophy, trend: "+2 this month" },
+  { label: "Total Jobs Posted", value: stats.totalJobs, icon: Briefcase, trend: "+3 this week", iconBg: "bg-blue-100", iconColor: "text-blue-600" },
+  { label: "Total Applicants", value: stats.totalApplicants, icon: Users, trend: "+48 this week", iconBg: "bg-orange-100", iconColor: "text-orange-600" },
+  { label: "Interviews Scheduled", value: stats.interviews, icon: CalendarCheck, trend: "+5 this week", iconBg: "bg-purple-100", iconColor: "text-purple-600" },
+  { label: "Positions Filled", value: stats.filled, icon: Trophy, trend: "+2 this month", iconBg: "bg-green-100", iconColor: "text-green-600" },
 ];
 
 function DashboardPage() {
@@ -30,7 +30,7 @@ function DashboardPage() {
         {cards.map((c) => (
           <Card key={c.label} className="p-5 border-0 shadow-sm">
             <div className="flex items-start justify-between">
-              <div className="h-10 w-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <div className={`h-10 w-10 rounded-lg ${c.iconBg} ${c.iconColor} flex items-center justify-center`}>
                 <c.icon className="h-5 w-5" />
               </div>
               <span className="text-xs text-success flex items-center gap-1"><TrendingUp className="h-3 w-3" />{c.trend}</span>
@@ -78,7 +78,10 @@ function DashboardPage() {
         </Card>
 
         <Card className="p-6 border-0 shadow-sm">
-          <h2 className="text-lg font-semibold mb-4">Recent Applicants</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Recent Applicants</h2>
+            <Link to="/candidates" className="text-sm text-accent hover:underline">View all</Link>
+          </div>
           <div className="space-y-4">
             {recentApplicants.map((c) => (
               <Link key={c.id} to="/candidates/$candidateId" params={{ candidateId: c.id }} className="flex items-center gap-3 group">
