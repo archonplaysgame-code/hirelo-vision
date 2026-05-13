@@ -616,30 +616,30 @@ function FooterCol({ title, links }: { title: string; links: string[] }) {
 
 function PostIllustration() {
   return (
-    <div className="relative w-full max-w-sm">
-      <div className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
-        <div className="flex items-center gap-2 mb-3">
+    <div className="relative w-full max-w-md">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-md">
+        <div className="flex items-center gap-2.5 mb-4">
           <div
-            className="h-7 w-7 rounded-md flex items-center justify-center"
+            className="h-9 w-9 rounded-lg flex items-center justify-center"
             style={{ backgroundColor: NAVY }}
           >
-            <Send className="h-3.5 w-3.5 text-white" />
+            <Send className="h-4 w-4 text-white" />
           </div>
-          <div className="text-sm font-semibold text-slate-800">
+          <div className="text-base font-semibold text-slate-800">
             Senior Developer
           </div>
         </div>
-        <div className="h-2 rounded bg-slate-100 mb-1.5 w-full" />
-        <div className="h-2 rounded bg-slate-100 w-2/3" />
+        <div className="h-2.5 rounded bg-slate-100 mb-2 w-full" />
+        <div className="h-2.5 rounded bg-slate-100 w-2/3" />
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
+      <div className="mt-5 grid grid-cols-2 gap-3">
         {["LinkedIn", "Indeed", "Rozee.pk", "Mustakbil"].map((p) => (
           <div
             key={p}
-            className="bg-white border border-slate-200 rounded-lg px-3 py-2.5 text-xs font-medium text-slate-700 flex items-center gap-2 shadow-sm"
+            className="bg-white border border-slate-200 rounded-lg px-4 py-3 text-sm font-medium text-slate-700 flex items-center gap-2 shadow-sm"
           >
             <Check
-              className="h-3.5 w-3.5"
+              className="h-4 w-4"
               style={{ color: "#10B981" }}
             />
             {p}
