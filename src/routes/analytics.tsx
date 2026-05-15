@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card } from "@/components/ui/card";
 import { applicationsOverTime, applicationsByPlatform, funnel } from "@/lib/dummy-data";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from "recharts";
 
 const PLATFORM_COLORS: Record<string, string> = {
   LinkedIn: "#0077B5",
@@ -14,88 +15,6 @@ export const Route = createFileRoute("/analytics")({
   component: () => <DashboardLayout><AnalyticsPage /></DashboardLayout>,
 });
 
-const W = 520;
-const H = 240;
-const PAD = { top: 16, right: 16, bottom: 28, left: 36 };
-const innerW = W - PAD.left - PAD.right;
-const innerH = H - PAD.top - PAD.bottom;
-
-function niceMax(v: number) {
-  const pow = Math.pow(10, Math.floor(Math.log10(v)));
-  return Math.ceil(v / pow) * pow;
-}
-
-function LineChartSvg({ data }: { data: { month: string; apps: number }[] }) {
-  const max = niceMax(Math.max(...data.map((d) => d.apps)));
-  const stepX = innerW / (data.length - 1);
-  const points = data.map((d, i) => ({
-    x: PAD.left + i * stepX,
-    y: PAD.top + innerH - (d.apps / max) * innerH,
-    ...d,
-  }));
-  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
-  const area = `${path} L${points[points.length - 1].x},${PAD.top + innerH} L${points[0].x},${PAD.top + innerH} Z`;
-  const yTicks = 4;
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full" preserveAspectRatio="none">
-      {Array.from({ length: yTicks + 1 }).map((_, i) => {
-        const y = PAD.top + (innerH / yTicks) * i;
-        const val = Math.round(max - (max / yTicks) * i);
-        return (
-          <g key={i}>
-            <line x1={PAD.left} x2={W - PAD.right} y1={y} y2={y} stroke="#e5e7eb" strokeDasharray="3 3" />
-            <text x={PAD.left - 6} y={y + 4} textAnchor="end" fontSize="10" fill="#64748b">{val}</text>
-          </g>
-        );
-      })}
-      {points.map((p, i) => (
-        <text key={i} x={p.x} y={H - 8} textAnchor="middle" fontSize="11" fill="#64748b">{p.month}</text>
-      ))}
-      <path d={area} fill="#FF6B35" fillOpacity={0.1} />
-      <path d={path} fill="none" stroke="#FF6B35" strokeWidth={2.5} strokeLinejoin="round" strokeLinecap="round" />
-      {points.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r={4} fill="#FF6B35" stroke="#fff" strokeWidth={2}>
-          <title>{`${p.month}: ${p.apps}`}</title>
-        </circle>
-      ))}
-    </svg>
-  );
-}
-
-function BarChartSvg({ data }: { data: { platform: string; apps: number }[] }) {
-  const max = niceMax(Math.max(...data.map((d) => d.apps)));
-  const slot = innerW / data.length;
-  const barW = Math.min(60, slot * 0.6);
-  const yTicks = 4;
-  return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-full" preserveAspectRatio="none">
-      {Array.from({ length: yTicks + 1 }).map((_, i) => {
-        const y = PAD.top + (innerH / yTicks) * i;
-        const val = Math.round(max - (max / yTicks) * i);
-        return (
-          <g key={i}>
-            <line x1={PAD.left} x2={W - PAD.right} y1={y} y2={y} stroke="#e5e7eb" strokeDasharray="3 3" />
-            <text x={PAD.left - 6} y={y + 4} textAnchor="end" fontSize="10" fill="#64748b">{val}</text>
-          </g>
-        );
-      })}
-      {data.map((d, i) => {
-        const cx = PAD.left + slot * i + slot / 2;
-        const h = (d.apps / max) * innerH;
-        const y = PAD.top + innerH - h;
-        return (
-          <g key={d.platform}>
-            <rect x={cx - barW / 2} y={y} width={barW} height={h} rx={6} fill={PLATFORM_COLORS[d.platform] ?? "#1E3A5F"}>
-              <title>{`${d.platform}: ${d.apps}`}</title>
-            </rect>
-            <text x={cx} y={H - 8} textAnchor="middle" fontSize="11" fill="#64748b">{d.platform}</text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
 function AnalyticsPage() {
   const max = Math.max(...funnel.map((f) => f.value));
   return (
@@ -106,19 +25,39 @@ function AnalyticsPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Card className="p-6 border-0 shadow-sm min-w-0">
+        <Card className="p-6 border-0 shadow-sm">
           <h3 className="font-semibold mb-1">Applications over time</h3>
           <p className="text-xs text-muted-foreground mb-4">Last 6 months</p>
-          <div className="h-64 w-full">
-            <LineChartSvg data={applicationsOverTime} />
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={applicationsOverTime}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+                <XAxis dataKey="month" stroke="var(--color-muted-foreground)" fontSize={12} />
+                <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
+                <Tooltip contentStyle={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 8 }} />
+                <Line type="monotone" dataKey="apps" stroke="var(--color-accent)" strokeWidth={2.5} dot={{ r: 4 }} />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </Card>
 
-        <Card className="p-6 border-0 shadow-sm min-w-0">
+        <Card className="p-6 border-0 shadow-sm">
           <h3 className="font-semibold mb-1">Applications by platform</h3>
           <p className="text-xs text-muted-foreground mb-4">All-time totals</p>
-          <div className="h-64 w-full">
-            <BarChartSvg data={applicationsByPlatform} />
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={applicationsByPlatform}>
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+                <XAxis dataKey="platform" stroke="var(--color-muted-foreground)" fontSize={12} />
+                <YAxis stroke="var(--color-muted-foreground)" fontSize={12} />
+                <Tooltip contentStyle={{ background: "var(--color-card)", border: "1px solid var(--color-border)", borderRadius: 8 }} />
+                <Bar dataKey="apps" radius={[6, 6, 0, 0]}>
+                  {applicationsByPlatform.map((entry) => (
+                    <Cell key={entry.platform} fill={PLATFORM_COLORS[entry.platform] ?? "var(--color-primary)"} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </Card>
 
