@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, GripVertical } from "lucide-react";
 import { jobs, candidates, STAGES, initials, platformColor, type Stage, type Candidate } from "@/lib/dummy-data";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
