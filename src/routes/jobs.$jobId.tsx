@@ -90,9 +90,9 @@ function JobPipeline() {
                 "flex flex-col rounded-lg bg-card border-t-4 transition-colors",
                 STAGE_BORDERS[stage],
               )}
-              onDragOver={(e) => { e.preventDefault(); setDragOverStage(stage); }}
+              onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; setDragOverStage(stage); }}
               onDragLeave={() => setDragOverStage((s) => (s === stage ? null : s))}
-              onDrop={() => handleDrop(stage)}
+              onDrop={(e) => handleDrop(e, stage)}
             >
               <div className="flex items-center justify-between mb-2 px-3 pt-3">
                 <h3 className="text-sm font-semibold text-foreground">{stage}</h3>
