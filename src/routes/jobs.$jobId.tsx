@@ -43,15 +43,18 @@ function JobPipeline() {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<Stage | null>(null);
 
-  function handleDrop(target: Stage) {
-    if (!draggingId) return;
+  function handleDrop(e: React.DragEvent, target: Stage) {
+    e.preventDefault();
+    const id = draggingId ?? e.dataTransfer.getData("text/plain");
+    if (!id) return;
     setBoard((prev) => {
       const next: Record<Stage, Candidate[]> = { ...prev };
       let moved: Candidate | undefined;
       for (const s of STAGES) {
-        const idx = next[s].findIndex((c) => c.id === draggingId);
+        const idx = next[s].findIndex((c) => c.id === id);
         if (idx >= 0) {
           moved = next[s][idx];
+          if (s === target) return prev;
           next[s] = [...next[s].slice(0, idx), ...next[s].slice(idx + 1)];
           break;
         }
