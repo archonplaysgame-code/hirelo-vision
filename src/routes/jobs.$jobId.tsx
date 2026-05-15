@@ -43,15 +43,18 @@ function JobPipeline() {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [dragOverStage, setDragOverStage] = useState<Stage | null>(null);
 
-  function handleDrop(target: Stage) {
-    if (!draggingId) return;
+  function handleDrop(e: React.DragEvent, target: Stage) {
+    e.preventDefault();
+    const id = draggingId ?? e.dataTransfer.getData("text/plain");
+    if (!id) return;
     setBoard((prev) => {
       const next: Record<Stage, Candidate[]> = { ...prev };
       let moved: Candidate | undefined;
       for (const s of STAGES) {
-        const idx = next[s].findIndex((c) => c.id === draggingId);
+        const idx = next[s].findIndex((c) => c.id === id);
         if (idx >= 0) {
           moved = next[s][idx];
+          if (s === target) return prev;
           next[s] = [...next[s].slice(0, idx), ...next[s].slice(idx + 1)];
           break;
         }
@@ -87,9 +90,9 @@ function JobPipeline() {
                 "flex flex-col rounded-lg bg-card border-t-4 transition-colors",
                 STAGE_BORDERS[stage],
               )}
-              onDragOver={(e) => { e.preventDefault(); setDragOverStage(stage); }}
+              onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "move"; setDragOverStage(stage); }}
               onDragLeave={() => setDragOverStage((s) => (s === stage ? null : s))}
-              onDrop={() => handleDrop(stage)}
+              onDrop={(e) => handleDrop(e, stage)}
             >
               <div className="flex items-center justify-between mb-2 px-3 pt-3">
                 <h3 className="text-sm font-semibold text-foreground">{stage}</h3>
@@ -105,7 +108,7 @@ function JobPipeline() {
                     <Card
                       key={c.id}
                       draggable
-                      onDragStart={() => setDraggingId(c.id)}
+                      onDragStart={(e) => { setDraggingId(c.id); e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", c.id); }}
                       onDragEnd={() => { setDraggingId(null); setDragOverStage(null); }}
                       className={cn(
                         "group p-3 border-0 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing",
