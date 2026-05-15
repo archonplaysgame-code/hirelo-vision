@@ -108,7 +108,7 @@ function JobPipeline() {
                     <Card
                       key={c.id}
                       draggable
-                      onDragStart={() => setDraggingId(c.id)}
+                      onDragStart={(e) => { setDraggingId(c.id); e.dataTransfer.effectAllowed = "move"; e.dataTransfer.setData("text/plain", c.id); }}
                       onDragEnd={() => { setDraggingId(null); setDragOverStage(null); }}
                       className={cn(
                         "group p-3 border-0 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing",
