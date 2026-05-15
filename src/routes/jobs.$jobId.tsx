@@ -113,6 +113,7 @@ function JobPipeline() {
                       )}
                     >
                       <div className="flex items-center gap-2">
+                        <GripVertical className="h-4 w-4 text-muted-foreground/50 shrink-0" />
                         <Avatar className="h-8 w-8">
                           <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">{initials(c.name)}</AvatarFallback>
                         </Avatar>
