@@ -14,7 +14,16 @@ export default defineConfig({
     prerender: {
       enabled: true,
       crawlLinks: true,
-      routes: ["/"],
+      routes: [
+        "/",
+        "/dashboard",
+        "/jobs",
+        "/jobs/new",
+        "/candidates",
+        "/analytics",
+        "/settings",
+        "/onboarding",
+      ],
     },
   },
 });
