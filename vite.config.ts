@@ -23,6 +23,8 @@ export default defineConfig({
         "/analytics",
         "/settings",
         "/onboarding",
+        ...Array.from({ length: 6 }, (_, i) => `/jobs/${i + 1}`),
+        ...Array.from({ length: 24 }, (_, i) => `/candidates/c${i + 1}`),
       ],
     },
   },
