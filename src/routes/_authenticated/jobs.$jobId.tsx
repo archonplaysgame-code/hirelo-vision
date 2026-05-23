@@ -9,7 +9,7 @@ import { jobs, candidates, STAGES, initials, platformColor, type Stage, type Can
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/jobs/$jobId")({
+export const Route = createFileRoute("/_authenticated/jobs/$jobId")({
   component: () => <DashboardLayout><JobPipeline /></DashboardLayout>,
   notFoundComponent: () => <DashboardLayout><div className="text-center py-20"><h1 className="text-2xl font-bold">Job not found</h1><Link to="/jobs" className="text-accent hover:underline mt-2 inline-block">Back to jobs</Link></div></DashboardLayout>,
 });

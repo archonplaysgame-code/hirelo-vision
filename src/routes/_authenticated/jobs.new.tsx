@@ -11,7 +11,7 @@ import { ArrowLeft } from "lucide-react";
 import { PLATFORMS } from "@/lib/dummy-data";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/jobs/new")({
+export const Route = createFileRoute("/_authenticated/jobs/new")({
   component: () => <DashboardLayout><NewJobPage /></DashboardLayout>,
 });
 

@@ -11,7 +11,7 @@ const PLATFORM_COLORS: Record<string, string> = {
   Mustakbil: "#00A651",
 };
 
-export const Route = createFileRoute("/analytics")({
+export const Route = createFileRoute("/_authenticated/analytics")({
   component: () => <DashboardLayout><AnalyticsPage /></DashboardLayout>,
 });
 

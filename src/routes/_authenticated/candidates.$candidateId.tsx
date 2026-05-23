@@ -10,7 +10,7 @@ import { candidates, jobs, STAGES, initials, platformColor } from "@/lib/dummy-d
 import { useState } from "react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/candidates/$candidateId")({
+export const Route = createFileRoute("/_authenticated/candidates/$candidateId")({
   component: () => <DashboardLayout><CandidateProfile /></DashboardLayout>,
   notFoundComponent: () => <DashboardLayout><div className="text-center py-20"><h1 className="text-2xl font-bold">Candidate not found</h1></div></DashboardLayout>,
 });

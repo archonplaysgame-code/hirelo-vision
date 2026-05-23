@@ -10,7 +10,7 @@ import { teamMembers, PLATFORMS, initials, platformColor } from "@/lib/dummy-dat
 import { Plus, Upload } from "lucide-react";
 import { toast } from "sonner";
 
-export const Route = createFileRoute("/settings")({
+export const Route = createFileRoute("/_authenticated/settings")({
   component: () => <DashboardLayout><SettingsPage /></DashboardLayout>,
 });
 
