@@ -8,7 +8,7 @@ import { candidates, initials, platformColor, jobs, PLATFORMS } from "@/lib/dumm
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/candidates/")({
+export const Route = createFileRoute("/_authenticated/candidates/")({
   component: () => <DashboardLayout><CandidatesPage /></DashboardLayout>,
 });
 
