@@ -62,7 +62,7 @@ export const getTeamMembers = createServerFn({ method: "GET" })
     const [{ data: members }, { data: invites }] = await Promise.all([
       supabase
         .from("workspace_members")
-        .select("user_id, role, created_at, profiles(full_name, avatar_url)")
+        .select("user_id, role, created_at")
         .eq("workspace_id", mine.workspace_id),
       supabase
         .from("invites")
@@ -70,12 +70,19 @@ export const getTeamMembers = createServerFn({ method: "GET" })
         .eq("workspace_id", mine.workspace_id)
         .order("created_at", { ascending: false }),
     ]);
+    const ids = (members ?? []).map((m) => m.user_id);
+    const profiles: Record<string, { full_name: string | null; avatar_url: string | null }> = {};
+    if (ids.length) {
+      const { data: ps } = await supabase
+        .from("profiles").select("id, full_name, avatar_url").in("id", ids);
+      for (const p of ps ?? []) profiles[p.id] = { full_name: p.full_name, avatar_url: p.avatar_url };
+    }
     return {
       members: (members ?? []).map((m) => ({
         userId: m.user_id,
         role: m.role,
-        name: m.profiles?.full_name ?? "Unnamed user",
-        avatarUrl: m.profiles?.avatar_url ?? null,
+        name: profiles[m.user_id]?.full_name ?? "Unnamed user",
+        avatarUrl: profiles[m.user_id]?.avatar_url ?? null,
       })),
       invites: invites ?? [],
     };
