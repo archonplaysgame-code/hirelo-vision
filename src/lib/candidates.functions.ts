@@ -51,9 +51,16 @@ export const getCandidate = createServerFn({ method: "GET" })
     if (!c) return null;
     const { data: notes } = await supabase
       .from("candidate_notes")
-      .select("id, body, created_at, author_id, profiles:author_id(full_name)")
+      .select("id, body, created_at, author_id")
       .eq("candidate_id", data.id)
       .order("created_at", { ascending: false });
+    const authorIds = Array.from(new Set((notes ?? []).map((n) => n.author_id)));
+    const authors: Record<string, string> = {};
+    if (authorIds.length) {
+      const { data: ps } = await supabase
+        .from("profiles").select("id, full_name").in("id", authorIds);
+      for (const p of ps ?? []) authors[p.id] = p.full_name ?? "Someone";
+    }
     return {
       id: c.id,
       name: c.name,
@@ -68,7 +75,7 @@ export const getCandidate = createServerFn({ method: "GET" })
         id: n.id,
         body: n.body,
         createdAt: n.created_at,
-        authorName: n.profiles?.full_name ?? "Someone",
+        authorName: authors[n.author_id] ?? "Someone",
       })),
     };
   });
