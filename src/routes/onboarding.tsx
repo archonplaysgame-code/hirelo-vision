@@ -59,18 +59,30 @@ function Onboarding() {
     step === 2 ? true :
     connected !== null;
 
-  const handleNext = () => {
-    if (step < STEPS.length) {
-      setStep((s) => s + 1);
-    } else {
+  const createWs = useServerFn(createWorkspace);
+  const [saving, setSaving] = useState(false);
+
+  const handleNext = async () => {
+    if (step < STEPS.length) { setStep((s) => s + 1); return; }
+    setSaving(true);
+    try {
+      await createWs({ data: { name: company.name.trim() || "My workspace" } });
       toast.success("Welcome to Hirelo! Your workspace is ready.");
       navigate({ to: "/dashboard" });
+    } catch (e: any) {
+      toast.error(e?.message ?? "Could not create workspace");
+    } finally {
+      setSaving(false);
     }
   };
 
-  const handleSkip = () => {
-    if (step < STEPS.length) setStep((s) => s + 1);
-    else navigate({ to: "/dashboard" });
+  const handleSkip = async () => {
+    if (step < STEPS.length) { setStep((s) => s + 1); return; }
+    setSaving(true);
+    try {
+      await createWs({ data: { name: company.name.trim() || "My workspace" } });
+    } catch {}
+    navigate({ to: "/dashboard" });
   };
 
   return (
