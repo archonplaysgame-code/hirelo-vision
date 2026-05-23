@@ -1,5 +1,6 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,8 +9,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { ArrowLeft, ArrowRight, Building2, Users, Plug, Plus, X, Check, Linkedin } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { createWorkspace } from "@/lib/workspace.functions";
 
 export const Route = createFileRoute("/onboarding")({
+  beforeLoad: async ({ location }) => {
+    const { data } = await supabase.auth.getUser();
+    if (!data.user) throw redirect({ to: "/login", search: { redirect: location.pathname } });
+  },
   component: Onboarding,
   head: () => ({
     meta: [
