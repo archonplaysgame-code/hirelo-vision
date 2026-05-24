@@ -7,7 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Briefcase, Users, CalendarCheck, Trophy, TrendingUp } from "lucide-react";
 import { jobs, recentApplicants, stats, initials, platformColor } from "@/lib/dummy-data";
 
-export const Route = createFileRoute("/_authenticated/dashboard")({
+export const Route = createFileRoute("/dashboard")({
   component: () => <DashboardLayout><DashboardPage /></DashboardLayout>,
 });
 

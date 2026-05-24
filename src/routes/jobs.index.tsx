@@ -9,7 +9,7 @@ import { Plus, MapPin, Users, Search } from "lucide-react";
 import { jobs } from "@/lib/dummy-data";
 import { useState } from "react";
 
-export const Route = createFileRoute("/_authenticated/jobs/")({
+export const Route = createFileRoute("/jobs/")({
   component: () => <DashboardLayout><JobsPage /></DashboardLayout>,
 });
 
